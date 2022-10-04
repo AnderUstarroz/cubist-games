@@ -1,0 +1,7 @@
+{
+  "repositoryUrl": "git@github.com:AnderUstarroz/cubist-games-lib.git",
+  "preset": "conventionalcommits",
+  "presetConfig": {
+    "issueUrlFormat": "{{host}}/{{owner}}/cubist-games-lib/issues/{{id}}"
+  }
+}
