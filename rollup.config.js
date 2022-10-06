@@ -5,6 +5,7 @@ import * as fs from 'fs';
 // import json from '@rollup/plugin-json';
 import path from 'path';
 import nodeResolve from '@rollup/plugin-node-resolve';
+import copy from 'rollup-plugin-copy';
 import replace from '@rollup/plugin-replace';
 import {terser} from 'rollup-plugin-terser';
 
@@ -216,6 +217,15 @@ function generateConfig(configType, format) {
       break;
     default:
       throw new Error(`Unknown configType: ${configType}`);
+  }
+  if (configType === 'node') {
+    config.plugins.push(
+      copy({
+        targets: [
+          {src: 'src/idl/cubist_games.json', dest: 'lib/', rename: 'idl.json'},
+        ],
+      }),
+    );
   }
 
   return config;

@@ -142,6 +142,11 @@ export type CubistGames = {
           "isSigner": false
         },
         {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false
@@ -167,6 +172,11 @@ export type CubistGames = {
         {
           "name": "game",
           "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
           "isSigner": false
         }
       ],
@@ -608,6 +618,10 @@ export type CubistGames = {
             }
           },
           {
+            "name": "termsId",
+            "type": "string"
+          },
+          {
             "name": "termsHash",
             "type": "string"
           },
@@ -812,6 +826,14 @@ export type CubistGames = {
             }
           },
           {
+            "name": "terms",
+            "type": {
+              "vec": {
+                "defined": "TermsPDA"
+              }
+            }
+          },
+          {
             "name": "categoriesHash",
             "type": {
               "option": "string"
@@ -884,6 +906,10 @@ export type CubistGames = {
                 "defined": "TreasuryShare"
               }
             }
+          },
+          {
+            "name": "termsId",
+            "type": "string"
           },
           {
             "name": "termsHash",
@@ -1272,6 +1298,11 @@ export const IDL: CubistGames = {
           "isSigner": false
         },
         {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false
@@ -1297,6 +1328,11 @@ export const IDL: CubistGames = {
         {
           "name": "game",
           "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
           "isSigner": false
         }
       ],
@@ -1738,6 +1774,10 @@ export const IDL: CubistGames = {
             }
           },
           {
+            "name": "termsId",
+            "type": "string"
+          },
+          {
             "name": "termsHash",
             "type": "string"
           },
@@ -1942,6 +1982,14 @@ export const IDL: CubistGames = {
             }
           },
           {
+            "name": "terms",
+            "type": {
+              "vec": {
+                "defined": "TermsPDA"
+              }
+            }
+          },
+          {
             "name": "categoriesHash",
             "type": {
               "option": "string"
@@ -2014,6 +2062,10 @@ export const IDL: CubistGames = {
                 "defined": "TreasuryShare"
               }
             }
+          },
+          {
+            "name": "termsId",
+            "type": "string"
           },
           {
             "name": "termsHash",
