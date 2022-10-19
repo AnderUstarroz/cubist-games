@@ -1,6 +1,22 @@
 import {PublicKey} from '@solana/web3.js';
 import {BN} from '@project-serum/anchor';
+import * as anchor from '@project-serum/anchor';
+import {PROGRAM_ID} from '../constants';
 
+export interface SystemConfigType {
+  bump: number;
+  treasury: PublicKey;
+  gameFee: BN;
+  betFee: BN;
+  profitFee: number;
+}
+
+export interface StatsType {
+  authority: PublicKey;
+  bump: number;
+  totalGames: BN;
+  totalSolProfits: BN;
+}
 export interface GeneralGameType {
   fee: number;
   showPot: boolean;
@@ -19,6 +35,12 @@ export interface StakeButtonsType {
 export interface ProfitShareType {
   treasury: PublicKey;
   share: number;
+  cashed: boolean;
+}
+
+export interface TermsType {
+  id: string;
+  bump: number;
 }
 export interface DefaultGameSettingsType
   extends GeneralGameType,
@@ -26,4 +48,79 @@ export interface DefaultGameSettingsType
   designTemplatesHash: null | string;
   categoriesHash: null | string;
   profitSharing: ProfitShareType[];
+  terms: TermsType[];
 }
+
+export interface OptionType {
+  id: number;
+  totalStake: BN;
+  totalBets: number;
+}
+
+export const isRejected = (
+  input: PromiseSettledResult<unknown>,
+): input is PromiseRejectedResult => input.status === 'rejected';
+
+export const isFulfilled = <T>(
+  input: PromiseSettledResult<T>,
+): input is PromiseFulfilledResult<T> => input.status === 'fulfilled';
+
+export async function system_config_pda(systemAuthority: PublicKey) {
+  return await PublicKey.findProgramAddress(
+    [
+      anchor.utils.bytes.utf8.encode('system_config'),
+      systemAuthority.toBuffer(),
+    ],
+    PROGRAM_ID,
+  );
+}
+
+export async function config_pda(authority: PublicKey) {
+  return await PublicKey.findProgramAddress(
+    [anchor.utils.bytes.utf8.encode('config'), authority.toBuffer()],
+    PROGRAM_ID,
+  );
+}
+
+export async function stats_pda(authority: PublicKey) {
+  return await PublicKey.findProgramAddress(
+    [anchor.utils.bytes.utf8.encode('stats'), authority.toBuffer()],
+    PROGRAM_ID,
+  );
+}
+
+export async function game_pda(authority: PublicKey, id: BN) {
+  return await PublicKey.findProgramAddress(
+    [id.toArrayLike(Buffer, 'le', 8), authority.toBuffer()],
+    PROGRAM_ID,
+  );
+}
+
+export async function player_bets_pda(
+  playerPublicKey: PublicKey,
+  gamePublicKey: PublicKey,
+) {
+  return await PublicKey.findProgramAddress(
+    [playerPublicKey.toBuffer(), gamePublicKey.toBuffer()],
+    PROGRAM_ID,
+  );
+}
+
+export async function terms_pda(authority: PublicKey, id: string) {
+  return await PublicKey.findProgramAddress(
+    [anchor.utils.bytes.utf8.encode(`terms-${id}`), authority.toBuffer()],
+    PROGRAM_ID,
+  );
+}
+
+export const fetch_pdas = async (pdas_params: any[]) => {
+  const data = await Promise.allSettled(
+    pdas_params.map((params: any[]) => {
+      return params.shift()(...params);
+    }),
+  );
+  if (data.find(isRejected)) {
+    throw new Error('Failed to fetch PDAs');
+  }
+  return data.map((pda: any) => pda.value);
+};

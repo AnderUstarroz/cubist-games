@@ -1,7 +1,58 @@
 export type CubistGames = {
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "cubist_games",
   "instructions": [
+    {
+      "name": "initializeSystemConfig",
+      "accounts": [
+        {
+          "name": "systemAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "systemConfigData",
+          "type": {
+            "defined": "SystemConfigData"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateSystemConfig",
+      "accounts": [
+        {
+          "name": "systemAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemConfig",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "systemConfigData",
+          "type": {
+            "defined": "SystemConfigData"
+          }
+        }
+      ]
+    },
     {
       "name": "initializeConfig",
       "accounts": [
@@ -18,6 +69,11 @@ export type CubistGames = {
         {
           "name": "stats",
           "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemConfig",
+          "isMut": false,
           "isSigner": false
         },
         {
@@ -46,6 +102,11 @@ export type CubistGames = {
         {
           "name": "config",
           "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemConfig",
+          "isMut": false,
           "isSigner": false
         }
       ],
@@ -147,6 +208,11 @@ export type CubistGames = {
           "isSigner": false
         },
         {
+          "name": "systemConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false
@@ -176,6 +242,11 @@ export type CubistGames = {
         },
         {
           "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemConfig",
           "isMut": false,
           "isSigner": false
         }
@@ -230,6 +301,16 @@ export type CubistGames = {
         },
         {
           "name": "playerBets",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemTreasury",
           "isMut": true,
           "isSigner": false
         },
@@ -385,6 +466,53 @@ export type CubistGames = {
           "type": "u64"
         }
       ]
+    },
+    {
+      "name": "collectSolProfits",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeAccount",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "account",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destination",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
     }
   ],
   "accounts": [
@@ -420,6 +548,14 @@ export type CubistGames = {
           {
             "name": "bump",
             "type": "u8"
+          },
+          {
+            "name": "https",
+            "type": "bool"
+          },
+          {
+            "name": "domain",
+            "type": "string"
           },
           {
             "name": "useCategories",
@@ -560,13 +696,11 @@ export type CubistGames = {
             }
           },
           {
-            "name": "cashedSignature",
-            "type": {
-              "option": "string"
-            }
+            "name": "isActive",
+            "type": "bool"
           },
           {
-            "name": "isActive",
+            "name": "useToken",
             "type": "bool"
           },
           {
@@ -691,6 +825,34 @@ export type CubistGames = {
       }
     },
     {
+      "name": "systemConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "gameFee",
+            "type": "u64"
+          },
+          {
+            "name": "betFee",
+            "type": "u64"
+          },
+          {
+            "name": "profitFee",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
       "name": "terms",
       "type": {
         "kind": "struct",
@@ -764,6 +926,10 @@ export type CubistGames = {
           {
             "name": "share",
             "type": "u16"
+          },
+          {
+            "name": "cashed",
+            "type": "bool"
           }
         ]
       }
@@ -773,6 +939,14 @@ export type CubistGames = {
       "type": {
         "kind": "struct",
         "fields": [
+          {
+            "name": "https",
+            "type": "bool"
+          },
+          {
+            "name": "domain",
+            "type": "string"
+          },
           {
             "name": "useCategories",
             "type": "bool"
@@ -957,6 +1131,30 @@ export type CubistGames = {
       }
     },
     {
+      "name": "SystemConfigData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "gameFee",
+            "type": "u64"
+          },
+          {
+            "name": "betFee",
+            "type": "u64"
+          },
+          {
+            "name": "profitFee",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
       "name": "GameState",
       "type": {
         "kind": "enum",
@@ -988,176 +1186,282 @@ export type CubistGames = {
     },
     {
       "code": 6001,
+      "name": "FeeTooSmall",
+      "msg": "The game fee cannot be smaller than the system fee (unless game fee is 0)"
+    },
+    {
+      "code": 6002,
       "name": "ProfitSharingLimit",
       "msg": "ProfitSharing cannot have more than 10 entries"
     },
     {
-      "code": 6002,
+      "code": 6003,
       "name": "InvalidProfitSharing",
       "msg": "Total profit sharing must be equal to 10000 (100.00%)"
     },
     {
-      "code": 6003,
+      "code": 6004,
+      "name": "DuplicatedProfitSharing",
+      "msg": "Profit sharing cannot have duplicated PublicKeys"
+    },
+    {
+      "code": 6005,
       "name": "ProgramTreasuryMissing",
       "msg": "The program treasury must be within the ProfitTreasuries array"
     },
     {
-      "code": 6004,
+      "code": 6006,
+      "name": "TreasuryShareNotFound",
+      "msg": "Treasury share public key does not exist"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidTreasuryShare",
+      "msg": "The program treasury share must be bigger"
+    },
+    {
+      "code": 6008,
+      "name": "ShareAlreadyCashed",
+      "msg": "The treasury share is already cashed"
+    },
+    {
+      "code": 6009,
       "name": "TermsAlreadyExists",
       "msg": "The terms and conditions already exists"
     },
     {
-      "code": 6005,
+      "code": 6010,
       "name": "InvalidDesignTemplates",
       "msg": "Design templates must be an array of strings, and each string must have between 1 and 2 alphanumeric characters"
     },
     {
-      "code": 6006,
+      "code": 6011,
       "name": "InvalidID",
       "msg": "ID must contain between 1 and 4 alphanumeric characters"
     },
     {
-      "code": 6007,
+      "code": 6012,
       "name": "TermsNotFound",
       "msg": "The selected terms & conditions does not exist"
     },
     {
-      "code": 6008,
+      "code": 6013,
       "name": "InvalidArweaveHash",
       "msg": "The Arweave hash must be a string of 43 characters"
     },
     {
-      "code": 6009,
+      "code": 6014,
       "name": "InvalidDesignTemplate",
       "msg": "The selected design template does not exist"
     },
     {
-      "code": 6010,
+      "code": 6015,
       "name": "InvalidCloseTime",
       "msg": "Close time must be greater than open time"
     },
     {
-      "code": 6011,
+      "code": 6016,
       "name": "InvalidSettleTime",
       "msg": "Settle time must be greater than close time"
     },
     {
-      "code": 6012,
+      "code": 6017,
       "name": "EmptyOptions",
-      "msg": "At least one option must be defined"
+      "msg": "At least one game option must be defined"
     },
     {
-      "code": 6013,
+      "code": 6018,
+      "name": "TooManyGameOptions",
+      "msg": "Too many game options! Maximum number of options is limited to 20"
+    },
+    {
+      "code": 6019,
       "name": "InvalidOptionOrder",
       "msg": "Options should be arranged in ascending order starting by 1"
     },
     {
-      "code": 6014,
+      "code": 6020,
       "name": "AlreadyStarted",
       "msg": "Cannot modify already started games (games with bets)"
     },
     {
-      "code": 6015,
+      "code": 6021,
       "name": "InvalidOptionInitialStake",
       "msg": "Options initial stake must be 0"
     },
     {
-      "code": 6016,
+      "code": 6022,
       "name": "InvalidOptionTotalBets",
       "msg": "Options initial total bets must be 0"
     },
     {
-      "code": 6017,
+      "code": 6023,
       "name": "GameDisabled",
       "msg": "The game is disabled and cannot accept bets or be settled"
     },
     {
-      "code": 6018,
+      "code": 6024,
       "name": "GameNotOpenedYet",
       "msg": "The game is not opened yet"
     },
     {
-      "code": 6019,
+      "code": 6025,
       "name": "GameAlreadyClosed",
       "msg": "The game is already closed"
     },
     {
-      "code": 6020,
+      "code": 6026,
       "name": "AlreadySettled",
       "msg": "The game is already settled"
     },
     {
-      "code": 6021,
+      "code": 6027,
       "name": "AlreadyVoided",
       "msg": "The game is already voided"
     },
     {
-      "code": 6022,
+      "code": 6028,
       "name": "ResultDoesNotExist",
       "msg": "Result does not exist"
     },
     {
-      "code": 6023,
+      "code": 6029,
       "name": "CannotModifyResult",
       "msg": "Cannot modify the game outcome because some users already have claimed their payments"
     },
     {
-      "code": 6024,
+      "code": 6030,
       "name": "GameIsNotVoided",
       "msg": "Only voided games can be refunded"
     },
     {
-      "code": 6025,
+      "code": 6031,
       "name": "GameIsNotSettled",
       "msg": "Payments can only be claimed when the game is settled"
     },
     {
-      "code": 6026,
+      "code": 6032,
       "name": "AlreadyPaid",
       "msg": "The bet was already paid"
     },
     {
-      "code": 6027,
+      "code": 6033,
       "name": "BetOutOfRange",
       "msg": "Bet ID was out of range"
     },
     {
-      "code": 6028,
+      "code": 6034,
       "name": "BetDoesNotExist",
       "msg": "The bet provided doesn't match an existing bet"
     },
     {
-      "code": 6029,
+      "code": 6035,
       "name": "NotAWinner",
       "msg": "Only winner bets can claim the prize"
     },
     {
-      "code": 6030,
+      "code": 6036,
       "name": "InsufficientFundsForTransaction",
       "msg": "Insufficient funds for transaction"
     },
     {
-      "code": 6031,
+      "code": 6037,
       "name": "MaxBetsLimit",
       "msg": "Cannot place more than 10 bets per game with the same wallet"
     },
     {
-      "code": 6032,
+      "code": 6038,
       "name": "InvalidMinStake",
       "msg": "Minimum Stake must be greater than 0"
     },
     {
-      "code": 6033,
+      "code": 6039,
       "name": "InvalidMinStep",
       "msg": "Minimum must be greater or equal than Minimum stake"
+    },
+    {
+      "code": 6040,
+      "name": "InvalidDomain",
+      "msg": "The domain provided is invalid (32 char max)"
+    },
+    {
+      "code": 6041,
+      "name": "Unauthorized",
+      "msg": "Only authorized wallets can peform this operation"
+    },
+    {
+      "code": 6042,
+      "name": "MaxStakeButtons",
+      "msg": "Cannot create more than 10 stake buttons"
+    },
+    {
+      "code": 6043,
+      "name": "InvalidMinStakeButton",
+      "msg": "The stake button amount cannot be smaller than the minimum allowed stake"
+    },
+    {
+      "code": 6044,
+      "name": "InvalidStepStakeButton",
+      "msg": "The stake button amount should be divisible by the min-step amount"
     }
   ]
 };
 
 export const IDL: CubistGames = {
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "cubist_games",
   "instructions": [
+    {
+      "name": "initializeSystemConfig",
+      "accounts": [
+        {
+          "name": "systemAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "systemConfigData",
+          "type": {
+            "defined": "SystemConfigData"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateSystemConfig",
+      "accounts": [
+        {
+          "name": "systemAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemConfig",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "systemConfigData",
+          "type": {
+            "defined": "SystemConfigData"
+          }
+        }
+      ]
+    },
     {
       "name": "initializeConfig",
       "accounts": [
@@ -1174,6 +1478,11 @@ export const IDL: CubistGames = {
         {
           "name": "stats",
           "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemConfig",
+          "isMut": false,
           "isSigner": false
         },
         {
@@ -1202,6 +1511,11 @@ export const IDL: CubistGames = {
         {
           "name": "config",
           "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemConfig",
+          "isMut": false,
           "isSigner": false
         }
       ],
@@ -1303,6 +1617,11 @@ export const IDL: CubistGames = {
           "isSigner": false
         },
         {
+          "name": "systemConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false
@@ -1332,6 +1651,11 @@ export const IDL: CubistGames = {
         },
         {
           "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemConfig",
           "isMut": false,
           "isSigner": false
         }
@@ -1386,6 +1710,16 @@ export const IDL: CubistGames = {
         },
         {
           "name": "playerBets",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemTreasury",
           "isMut": true,
           "isSigner": false
         },
@@ -1541,6 +1875,53 @@ export const IDL: CubistGames = {
           "type": "u64"
         }
       ]
+    },
+    {
+      "name": "collectSolProfits",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeAccount",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "account",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destination",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
     }
   ],
   "accounts": [
@@ -1576,6 +1957,14 @@ export const IDL: CubistGames = {
           {
             "name": "bump",
             "type": "u8"
+          },
+          {
+            "name": "https",
+            "type": "bool"
+          },
+          {
+            "name": "domain",
+            "type": "string"
           },
           {
             "name": "useCategories",
@@ -1716,13 +2105,11 @@ export const IDL: CubistGames = {
             }
           },
           {
-            "name": "cashedSignature",
-            "type": {
-              "option": "string"
-            }
+            "name": "isActive",
+            "type": "bool"
           },
           {
-            "name": "isActive",
+            "name": "useToken",
             "type": "bool"
           },
           {
@@ -1847,6 +2234,34 @@ export const IDL: CubistGames = {
       }
     },
     {
+      "name": "systemConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "gameFee",
+            "type": "u64"
+          },
+          {
+            "name": "betFee",
+            "type": "u64"
+          },
+          {
+            "name": "profitFee",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
       "name": "terms",
       "type": {
         "kind": "struct",
@@ -1920,6 +2335,10 @@ export const IDL: CubistGames = {
           {
             "name": "share",
             "type": "u16"
+          },
+          {
+            "name": "cashed",
+            "type": "bool"
           }
         ]
       }
@@ -1929,6 +2348,14 @@ export const IDL: CubistGames = {
       "type": {
         "kind": "struct",
         "fields": [
+          {
+            "name": "https",
+            "type": "bool"
+          },
+          {
+            "name": "domain",
+            "type": "string"
+          },
           {
             "name": "useCategories",
             "type": "bool"
@@ -2113,6 +2540,30 @@ export const IDL: CubistGames = {
       }
     },
     {
+      "name": "SystemConfigData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "gameFee",
+            "type": "u64"
+          },
+          {
+            "name": "betFee",
+            "type": "u64"
+          },
+          {
+            "name": "profitFee",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
       "name": "GameState",
       "type": {
         "kind": "enum",
@@ -2144,168 +2595,223 @@ export const IDL: CubistGames = {
     },
     {
       "code": 6001,
+      "name": "FeeTooSmall",
+      "msg": "The game fee cannot be smaller than the system fee (unless game fee is 0)"
+    },
+    {
+      "code": 6002,
       "name": "ProfitSharingLimit",
       "msg": "ProfitSharing cannot have more than 10 entries"
     },
     {
-      "code": 6002,
+      "code": 6003,
       "name": "InvalidProfitSharing",
       "msg": "Total profit sharing must be equal to 10000 (100.00%)"
     },
     {
-      "code": 6003,
+      "code": 6004,
+      "name": "DuplicatedProfitSharing",
+      "msg": "Profit sharing cannot have duplicated PublicKeys"
+    },
+    {
+      "code": 6005,
       "name": "ProgramTreasuryMissing",
       "msg": "The program treasury must be within the ProfitTreasuries array"
     },
     {
-      "code": 6004,
+      "code": 6006,
+      "name": "TreasuryShareNotFound",
+      "msg": "Treasury share public key does not exist"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidTreasuryShare",
+      "msg": "The program treasury share must be bigger"
+    },
+    {
+      "code": 6008,
+      "name": "ShareAlreadyCashed",
+      "msg": "The treasury share is already cashed"
+    },
+    {
+      "code": 6009,
       "name": "TermsAlreadyExists",
       "msg": "The terms and conditions already exists"
     },
     {
-      "code": 6005,
+      "code": 6010,
       "name": "InvalidDesignTemplates",
       "msg": "Design templates must be an array of strings, and each string must have between 1 and 2 alphanumeric characters"
     },
     {
-      "code": 6006,
+      "code": 6011,
       "name": "InvalidID",
       "msg": "ID must contain between 1 and 4 alphanumeric characters"
     },
     {
-      "code": 6007,
+      "code": 6012,
       "name": "TermsNotFound",
       "msg": "The selected terms & conditions does not exist"
     },
     {
-      "code": 6008,
+      "code": 6013,
       "name": "InvalidArweaveHash",
       "msg": "The Arweave hash must be a string of 43 characters"
     },
     {
-      "code": 6009,
+      "code": 6014,
       "name": "InvalidDesignTemplate",
       "msg": "The selected design template does not exist"
     },
     {
-      "code": 6010,
+      "code": 6015,
       "name": "InvalidCloseTime",
       "msg": "Close time must be greater than open time"
     },
     {
-      "code": 6011,
+      "code": 6016,
       "name": "InvalidSettleTime",
       "msg": "Settle time must be greater than close time"
     },
     {
-      "code": 6012,
+      "code": 6017,
       "name": "EmptyOptions",
-      "msg": "At least one option must be defined"
+      "msg": "At least one game option must be defined"
     },
     {
-      "code": 6013,
+      "code": 6018,
+      "name": "TooManyGameOptions",
+      "msg": "Too many game options! Maximum number of options is limited to 20"
+    },
+    {
+      "code": 6019,
       "name": "InvalidOptionOrder",
       "msg": "Options should be arranged in ascending order starting by 1"
     },
     {
-      "code": 6014,
+      "code": 6020,
       "name": "AlreadyStarted",
       "msg": "Cannot modify already started games (games with bets)"
     },
     {
-      "code": 6015,
+      "code": 6021,
       "name": "InvalidOptionInitialStake",
       "msg": "Options initial stake must be 0"
     },
     {
-      "code": 6016,
+      "code": 6022,
       "name": "InvalidOptionTotalBets",
       "msg": "Options initial total bets must be 0"
     },
     {
-      "code": 6017,
+      "code": 6023,
       "name": "GameDisabled",
       "msg": "The game is disabled and cannot accept bets or be settled"
     },
     {
-      "code": 6018,
+      "code": 6024,
       "name": "GameNotOpenedYet",
       "msg": "The game is not opened yet"
     },
     {
-      "code": 6019,
+      "code": 6025,
       "name": "GameAlreadyClosed",
       "msg": "The game is already closed"
     },
     {
-      "code": 6020,
+      "code": 6026,
       "name": "AlreadySettled",
       "msg": "The game is already settled"
     },
     {
-      "code": 6021,
+      "code": 6027,
       "name": "AlreadyVoided",
       "msg": "The game is already voided"
     },
     {
-      "code": 6022,
+      "code": 6028,
       "name": "ResultDoesNotExist",
       "msg": "Result does not exist"
     },
     {
-      "code": 6023,
+      "code": 6029,
       "name": "CannotModifyResult",
       "msg": "Cannot modify the game outcome because some users already have claimed their payments"
     },
     {
-      "code": 6024,
+      "code": 6030,
       "name": "GameIsNotVoided",
       "msg": "Only voided games can be refunded"
     },
     {
-      "code": 6025,
+      "code": 6031,
       "name": "GameIsNotSettled",
       "msg": "Payments can only be claimed when the game is settled"
     },
     {
-      "code": 6026,
+      "code": 6032,
       "name": "AlreadyPaid",
       "msg": "The bet was already paid"
     },
     {
-      "code": 6027,
+      "code": 6033,
       "name": "BetOutOfRange",
       "msg": "Bet ID was out of range"
     },
     {
-      "code": 6028,
+      "code": 6034,
       "name": "BetDoesNotExist",
       "msg": "The bet provided doesn't match an existing bet"
     },
     {
-      "code": 6029,
+      "code": 6035,
       "name": "NotAWinner",
       "msg": "Only winner bets can claim the prize"
     },
     {
-      "code": 6030,
+      "code": 6036,
       "name": "InsufficientFundsForTransaction",
       "msg": "Insufficient funds for transaction"
     },
     {
-      "code": 6031,
+      "code": 6037,
       "name": "MaxBetsLimit",
       "msg": "Cannot place more than 10 bets per game with the same wallet"
     },
     {
-      "code": 6032,
+      "code": 6038,
       "name": "InvalidMinStake",
       "msg": "Minimum Stake must be greater than 0"
     },
     {
-      "code": 6033,
+      "code": 6039,
       "name": "InvalidMinStep",
       "msg": "Minimum must be greater or equal than Minimum stake"
+    },
+    {
+      "code": 6040,
+      "name": "InvalidDomain",
+      "msg": "The domain provided is invalid (32 char max)"
+    },
+    {
+      "code": 6041,
+      "name": "Unauthorized",
+      "msg": "Only authorized wallets can peform this operation"
+    },
+    {
+      "code": 6042,
+      "name": "MaxStakeButtons",
+      "msg": "Cannot create more than 10 stake buttons"
+    },
+    {
+      "code": 6043,
+      "name": "InvalidMinStakeButton",
+      "msg": "The stake button amount cannot be smaller than the minimum allowed stake"
+    },
+    {
+      "code": 6044,
+      "name": "InvalidStepStakeButton",
+      "msg": "The stake button amount should be divisible by the min-step amount"
     }
   ]
 };

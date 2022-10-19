@@ -4,9 +4,6 @@ import {Connection} from '@solana/web3.js';
 import type {Adapter} from '@solana/wallet-adapter-base';
 import {ENVIRONMENT, CURRENCY} from '../constants';
 
-// @ts-ignore
-import fileReaderStream from 'filereader-stream';
-
 export class BundlrError extends Error {
   constructor(message: string) {
     super(message);
@@ -18,6 +15,7 @@ export interface FileType {
   mimeType: string;
   size: number;
   stream: any;
+  base64: string | null;
   arweave_hash: string | null;
 }
 export interface FilesType {
@@ -58,30 +56,17 @@ export class Bundlr {
     return 'https://devnet.bundlr.network';
   }
 
-  async getFileData(e: any): Promise<FilesType> {
-    if (e.target.files?.length !== 1) {
-      throw new Error(
-        `Invalid number of files (expected 1, got ${e.target.files?.length})`,
-      );
-    }
-    return {
-      [e.target.name]: {
-        mimeType: e.target.files[0]?.type ?? 'application/octet-stream',
-        size: e.target.files[0]?.size ?? 0,
-        stream: fileReaderStream(e.target.files[0]),
-        arweave_hash: null,
-      },
-    };
-  }
-
   async fund(fundSolAmount: number) {
-    const lamports = this.parseSolToLamports(fundSolAmount);
+    const lamports = this.parseSolToLamports(fundSolAmount.toFixed(9));
     try {
       const response = await this.webBundlr.fund(lamports);
       console.log(`Funded ${response.target}, tx ID : ${response.id}`);
       return response;
     } catch (e: any) {
-      throw new BundlrError(`Failed to fund - ${e.data?.message || e.message}`);
+      console.error(e);
+      throw new BundlrError(
+        `Top up Arweave account failed! You need to have at least ${fundSolAmount} SOL in your wallet.`,
+      );
     }
   }
 
@@ -93,8 +78,21 @@ export class Bundlr {
     return await this.webBundlr.getBalance(this.webBundlr.address);
   }
 
-  async uploadFile(file: FileType, uploadProgress = (_e: any) => {}) {
-    if (file.stream) {
+  async uploadJSON(jsonString: string) {
+    return await this.uploadFile({
+      mimeType: 'application/json',
+      size: Buffer.byteLength(jsonString, 'utf8'),
+      stream: Buffer.from(jsonString, 'utf8'),
+      base64: null,
+      arweave_hash: null,
+    });
+  }
+
+  async uploadFile(
+    file: FileType,
+    uploadProgress = (_e: any) => {},
+  ): Promise<string> {
+    if (!file.stream) {
       throw new BundlrError('File stream is empty, aborting upload...');
     }
     const uploader = this.webBundlr.uploader.chunkedUploader;
@@ -115,9 +113,9 @@ export class Bundlr {
         console.error(response);
         throw new BundlrError(`Upload failed! ${response.status}`);
       }
-      return response.data.id;
+      return response.data.id; // arweave hash
     } catch (e) {
-      throw new BundlrError(`Failed to upload - ${e}`);
+      throw new BundlrError(`Upload failed! ${e}`);
     }
   }
 

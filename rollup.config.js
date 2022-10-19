@@ -59,7 +59,9 @@ const ignoredDependencies = [
 
 const globals = {
   '@bundlr-network/client': 'client',
+  '@solana/web3.js': 'web3_js',
   'filereader-stream': 'fileReaderStream',
+  '@project-serum/anchor': 'anchor',
 };
 
 function generateConfig(configType, format) {

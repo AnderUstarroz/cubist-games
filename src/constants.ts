@@ -1,10 +1,14 @@
 import {PublicKey} from '@solana/web3.js';
 
 export const PROGRAM_ID = new PublicKey(
-  'gameQsynjfrPda7aWQjyYi4wDm6btb84fu1PwuqewiF',
+  'Gamehha5KKbeZCPDu7MrpZz8JEZXtNycMy8WLjLtG5Dd',
 );
 export const MEMO_PROGRAM_ID = new PublicKey(
   'MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr',
+);
+
+export const SYSTEM_AUTHORITY = new PublicKey(
+  'GAMEGRX4kWv15uJ7ySjovQxtongVQVeB3g3DTWh7fCVE',
 );
 
 export enum ENVIRONMENT {
@@ -19,3 +23,5 @@ export enum ENVIRONMENT {
 export const LAMPORTS_PER_SOL = 1000000000;
 
 export const CURRENCY = 'solana';
+
+export const MAX_TERMS = 50;
