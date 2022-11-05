@@ -2,6 +2,15 @@ import {PublicKey} from '@solana/web3.js';
 import {BN} from '@project-serum/anchor';
 import * as anchor from '@project-serum/anchor';
 import {PROGRAM_ID} from '../constants';
+import {IdlAccounts, IdlTypes} from '@project-serum/anchor';
+import {CubistGames} from '../cubist_games';
+
+export type PlayerBetsAccountType = IdlAccounts<CubistGames>['playerBets'];
+
+export type PlayerBetType = IdlTypes<CubistGames>['Bet'];
+export interface PlayerBetsType extends PlayerBetsAccountType {
+  bets: PlayerBetType[];
+}
 
 export interface SystemConfigType {
   bump: number;
@@ -55,6 +64,51 @@ export interface OptionType {
   id: number;
   totalStake: BN;
   totalBets: number;
+}
+
+export enum ActionType {
+  Bet = 'Bet',
+  Payment = 'Payment',
+  Refund = 'Refund',
+}
+
+export interface BetMsgType {
+  siteId: string;
+  gameId: number;
+  betId: number;
+  type: string;
+  optionId: number;
+  stake: number;
+  referral: string | null;
+}
+export type ClaimSolBetType = [number, number, number, number];
+export interface ClaimSolMsgType {
+  siteId: string;
+  gameId: number;
+  type: string;
+  bets: ClaimSolBetType[];
+}
+
+export type RefundSolBetType = [number, number, number];
+
+export type RefundSolMsgType = {
+  siteId: string;
+  gameId: number;
+  type: string;
+  bets: RefundSolBetType[];
+};
+
+export interface PDAType {
+  pda: PublicKey;
+  bump: number;
+}
+
+export interface PDATypes {
+  systemConfig: PDAType;
+  config: PDAType;
+  stats: PDAType;
+  game: PDAType;
+  playerBets: PDAType;
 }
 
 export const isRejected = (
@@ -113,14 +167,23 @@ export async function terms_pda(authority: PublicKey, id: string) {
   );
 }
 
-export const fetch_pdas = async (pdas_params: any[]) => {
+export const fetch_pdas = async (pdaParams: any): Promise<PDATypes> => {
   const data = await Promise.allSettled(
-    pdas_params.map((params: any[]) => {
-      return params.shift()(...params);
+    pdaParams.map(async (params: any[]) => {
+      const [_, func, ...args] = params;
+      return func(...args);
     }),
   );
   if (data.find(isRejected)) {
+    console.error(data);
     throw new Error('Failed to fetch PDAs');
   }
-  return data.map((pda: any) => pda.value);
+  return data.reduce((acc: PDATypes, r: any, k: number) => {
+    //@ts-ignore
+    acc[pdaParams[k][0]] = {
+      pda: r.value[0],
+      bump: r.value[1],
+    };
+    return acc;
+  }, {} as PDATypes);
 };

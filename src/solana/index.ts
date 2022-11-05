@@ -1,5 +1,5 @@
 import * as anchor from '@project-serum/anchor';
-import {Connection} from '@solana/web3.js';
+import {Connection, PublicKey} from '@solana/web3.js';
 import {PROGRAM_ID} from '../constants';
 import {CubistGames} from '../cubist_games';
 
@@ -22,7 +22,7 @@ export const initSolanaProgram = async (
   return new anchor.Program<CubistGames>(idl, PROGRAM_ID, provider);
 };
 
-export async function solana_usd_price(currency: string = 'USD') {
+export async function solana_fiat_price(currency: string = 'USD') {
   // Try to fetch Solana price from CoinGecko.
   try {
     const response = await fetch(
@@ -53,7 +53,26 @@ export function lamports_to_sol(amount: number) {
   return amount / 1000000000;
 }
 
+export function num_format(n: number, decimals = 9) {
+  return parseFloat(n.toFixed(decimals));
+}
+
+export function arweave_url(hash: string) {
+  return `https://arweave.net/${hash}`;
+}
 export async function arweave_json(hash: string) {
-  let response = await fetch(`https://arweave.net/${hash}`);
+  let response = await fetch(arweave_url(hash));
   return await response.json();
+}
+
+export async function arweave_image(hash: string) {
+  let response = await fetch(arweave_url(hash));
+  return await response.blob();
+}
+
+export function short_key(publicKey: PublicKey | string) {
+  if (publicKey instanceof PublicKey) {
+    publicKey = publicKey.toBase58();
+  }
+  return `${publicKey.slice(0, 4)}..${publicKey.slice(-4)}`;
 }

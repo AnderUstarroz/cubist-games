@@ -25,3 +25,5 @@ export const LAMPORTS_PER_SOL = 1000000000;
 export const CURRENCY = 'solana';
 
 export const MAX_TERMS = 50;
+
+export const MAX_PERCENTAGE = 10000; // Max percentage allowed 100.00% = 10000

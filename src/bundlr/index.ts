@@ -16,7 +16,7 @@ export interface FileType {
   size: number;
   stream: any;
   base64: string | null;
-  arweave_hash: string | null;
+  arweaveHash: string | null;
 }
 export interface FilesType {
   [key: string]: FileType;
@@ -84,7 +84,7 @@ export class Bundlr {
       size: Buffer.byteLength(jsonString, 'utf8'),
       stream: Buffer.from(jsonString, 'utf8'),
       base64: null,
-      arweave_hash: null,
+      arweaveHash: null,
     });
   }
 

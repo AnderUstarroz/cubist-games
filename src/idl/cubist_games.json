@@ -1,5 +1,5 @@
 {
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "cubist_games",
   "instructions": [
     {
@@ -782,7 +782,7 @@
             }
           },
           {
-            "name": "totalBetsPaid",
+            "name": "totalBetsClaimed",
             "type": "u32"
           },
           {
@@ -1094,6 +1094,12 @@
             "type": "string"
           },
           {
+            "name": "image1Hash",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
             "name": "category",
             "type": {
               "option": "string"
@@ -1277,7 +1283,7 @@
     {
       "code": 6019,
       "name": "InvalidOptionOrder",
-      "msg": "Options should be arranged in ascending order starting by 1"
+      "msg": "Options should be arranged in ascending order starting by id=0"
     },
     {
       "code": 6020,
@@ -1404,8 +1410,5 @@
       "name": "InvalidStepStakeButton",
       "msg": "The stake button amount should be divisible by the min-step amount"
     }
-  ],
-  "metadata": {
-    "address": "Gamehha5KKbeZCPDu7MrpZz8JEZXtNycMy8WLjLtG5Dd"
-  }
+  ]
 }

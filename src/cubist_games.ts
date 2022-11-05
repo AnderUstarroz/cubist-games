@@ -1,5 +1,5 @@
 export type CubistGames = {
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "cubist_games",
   "instructions": [
     {
@@ -782,7 +782,7 @@ export type CubistGames = {
             }
           },
           {
-            "name": "totalBetsPaid",
+            "name": "totalBetsClaimed",
             "type": "u32"
           },
           {
@@ -1094,6 +1094,12 @@ export type CubistGames = {
             "type": "string"
           },
           {
+            "name": "image1Hash",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
             "name": "category",
             "type": {
               "option": "string"
@@ -1277,7 +1283,7 @@ export type CubistGames = {
     {
       "code": 6019,
       "name": "InvalidOptionOrder",
-      "msg": "Options should be arranged in ascending order starting by 1"
+      "msg": "Options should be arranged in ascending order starting by id=0"
     },
     {
       "code": 6020,
@@ -1408,7 +1414,7 @@ export type CubistGames = {
 };
 
 export const IDL: CubistGames = {
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "cubist_games",
   "instructions": [
     {
@@ -2191,7 +2197,7 @@ export const IDL: CubistGames = {
             }
           },
           {
-            "name": "totalBetsPaid",
+            "name": "totalBetsClaimed",
             "type": "u32"
           },
           {
@@ -2503,6 +2509,12 @@ export const IDL: CubistGames = {
             "type": "string"
           },
           {
+            "name": "image1Hash",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
             "name": "category",
             "type": {
               "option": "string"
@@ -2686,7 +2698,7 @@ export const IDL: CubistGames = {
     {
       "code": 6019,
       "name": "InvalidOptionOrder",
-      "msg": "Options should be arranged in ascending order starting by 1"
+      "msg": "Options should be arranged in ascending order starting by id=0"
     },
     {
       "code": 6020,
