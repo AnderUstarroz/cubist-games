@@ -1,8 +1,11 @@
 {
-  "name": "cubist-games-lib",
+  "name": "@cubist-collective/cubist-games-lib",
   "version": "0.0.1",
   "description": "NPM library containing all resources for creating on-chain games on the Solana network.",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "lib/index.cjs.js",
   "module": "lib/index.esm.js",
   "types": "lib/index.d.ts",

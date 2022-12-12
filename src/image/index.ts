@@ -9,7 +9,7 @@ export const is_compressible = (mimeType: string) => {
   ]).has(mimeType);
 };
 
-export const blob_to_base64 = (blob: Blob) => {
+export const blob_to_base64 = async (blob: Blob) => {
   return new Promise<string>((resolve, _) => {
     const reader = new FileReader();
     reader.onloadend = () => {

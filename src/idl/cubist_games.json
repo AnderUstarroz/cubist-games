@@ -481,6 +481,11 @@
           "isSigner": false
         },
         {
+          "name": "stats",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "treasury",
           "isMut": true,
           "isSigner": false
@@ -513,6 +518,29 @@
         }
       ],
       "args": []
+    },
+    {
+      "name": "updateGameInfo",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "infoHash",
+          "type": {
+            "option": "string"
+          }
+        }
+      ]
     }
   ],
   "accounts": [
@@ -619,6 +647,12 @@
           },
           {
             "name": "categoriesHash",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "tokensHash",
             "type": {
               "option": "string"
             }
@@ -764,6 +798,12 @@
             "type": "string"
           },
           {
+            "name": "infoHash",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
             "name": "image1Hash",
             "type": {
               "option": "string"
@@ -795,6 +835,14 @@
             "name": "category",
             "type": {
               "option": "string"
+            }
+          },
+          {
+            "name": "harvestState",
+            "type": {
+              "option": {
+                "defined": "HarvestState"
+              }
             }
           }
         ]
@@ -1012,6 +1060,12 @@
             "type": {
               "option": "string"
             }
+          },
+          {
+            "name": "tokensHash",
+            "type": {
+              "option": "string"
+            }
           }
         ]
       }
@@ -1179,6 +1233,17 @@
           },
           {
             "name": "Settled"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HarvestState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "HarvestedPlayerBets"
           }
         ]
       }
@@ -1410,5 +1475,8 @@
       "name": "InvalidStepStakeButton",
       "msg": "The stake button amount should be divisible by the min-step amount"
     }
-  ]
+  ],
+  "metadata": {
+    "address": "Gamehha5KKbeZCPDu7MrpZz8JEZXtNycMy8WLjLtG5Dd"
+  }
 }

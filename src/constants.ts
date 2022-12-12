@@ -27,3 +27,9 @@ export const CURRENCY = 'solana';
 export const MAX_TERMS = 50;
 
 export const MAX_PERCENTAGE = 10000; // Max percentage allowed 100.00% = 10000
+
+export const MAX_GAME_OPTIONS = 25;
+
+export const MAX_BETS_LIMIT = 10;
+
+export const MAX_STAKE_BUTTONS = 5;

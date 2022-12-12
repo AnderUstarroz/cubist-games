@@ -481,6 +481,11 @@ export type CubistGames = {
           "isSigner": false
         },
         {
+          "name": "stats",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "treasury",
           "isMut": true,
           "isSigner": false
@@ -513,6 +518,29 @@ export type CubistGames = {
         }
       ],
       "args": []
+    },
+    {
+      "name": "updateGameInfo",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "infoHash",
+          "type": {
+            "option": "string"
+          }
+        }
+      ]
     }
   ],
   "accounts": [
@@ -619,6 +647,12 @@ export type CubistGames = {
           },
           {
             "name": "categoriesHash",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "tokensHash",
             "type": {
               "option": "string"
             }
@@ -764,6 +798,12 @@ export type CubistGames = {
             "type": "string"
           },
           {
+            "name": "infoHash",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
             "name": "image1Hash",
             "type": {
               "option": "string"
@@ -795,6 +835,14 @@ export type CubistGames = {
             "name": "category",
             "type": {
               "option": "string"
+            }
+          },
+          {
+            "name": "harvestState",
+            "type": {
+              "option": {
+                "defined": "HarvestState"
+              }
             }
           }
         ]
@@ -1012,6 +1060,12 @@ export type CubistGames = {
             "type": {
               "option": "string"
             }
+          },
+          {
+            "name": "tokensHash",
+            "type": {
+              "option": "string"
+            }
           }
         ]
       }
@@ -1179,6 +1233,17 @@ export type CubistGames = {
           },
           {
             "name": "Settled"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HarvestState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "HarvestedPlayerBets"
           }
         ]
       }
@@ -1896,6 +1961,11 @@ export const IDL: CubistGames = {
           "isSigner": false
         },
         {
+          "name": "stats",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "treasury",
           "isMut": true,
           "isSigner": false
@@ -1928,6 +1998,29 @@ export const IDL: CubistGames = {
         }
       ],
       "args": []
+    },
+    {
+      "name": "updateGameInfo",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "infoHash",
+          "type": {
+            "option": "string"
+          }
+        }
+      ]
     }
   ],
   "accounts": [
@@ -2034,6 +2127,12 @@ export const IDL: CubistGames = {
           },
           {
             "name": "categoriesHash",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "tokensHash",
             "type": {
               "option": "string"
             }
@@ -2179,6 +2278,12 @@ export const IDL: CubistGames = {
             "type": "string"
           },
           {
+            "name": "infoHash",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
             "name": "image1Hash",
             "type": {
               "option": "string"
@@ -2210,6 +2315,14 @@ export const IDL: CubistGames = {
             "name": "category",
             "type": {
               "option": "string"
+            }
+          },
+          {
+            "name": "harvestState",
+            "type": {
+              "option": {
+                "defined": "HarvestState"
+              }
             }
           }
         ]
@@ -2427,6 +2540,12 @@ export const IDL: CubistGames = {
             "type": {
               "option": "string"
             }
+          },
+          {
+            "name": "tokensHash",
+            "type": {
+              "option": "string"
+            }
           }
         ]
       }
@@ -2594,6 +2713,17 @@ export const IDL: CubistGames = {
           },
           {
             "name": "Settled"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HarvestState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "HarvestedPlayerBets"
           }
         ]
       }

@@ -38,9 +38,10 @@ export async function solana_fiat_price(currency: string = 'USD') {
   }
 }
 
-export function solana_to_usd(amount: number, rate: number) {
-  return amount * rate;
+export function solana_to_usd(solAmount: number, rate: number) {
+  return num_format(solAmount * rate, 2);
 }
+
 export function usd_to_solana(amount: number, rate: number) {
   return amount / rate;
 }
