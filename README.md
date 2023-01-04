@@ -16,3 +16,13 @@ To simplify development you can use the local version of the **cubist-games-lib*
 - Go to the root folder of the webapp using this library and run `yarn link "cubist-games-lib"`
 - You need to run `yarn build` any time you update the library in order to see the changes in the webapp.
 - Note: If using VSCode hit `Comand + Shift + P` and type `Reload Window` to refresh typescript after running `yarn build`.
+
+To remove the link just run: `yarn unlink "cubist-games-lib"`
+
+# Publish Package
+
+To publish the package:
+
+- Run `yarn publish --access public`
+- Type the new package version.
+- Add the Google authentication code.

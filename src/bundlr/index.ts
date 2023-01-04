@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import {WebBundlr} from '@bundlr-network/client';
 import {Connection} from '@solana/web3.js';
 import type {Adapter} from '@solana/wallet-adapter-base';
-import {ENVIRONMENT, CURRENCY} from '../constants';
+import {CURRENCY} from '../constants';
 
 export class BundlrError extends Error {
   constructor(message: string) {
@@ -26,7 +26,11 @@ export class Bundlr {
   // @ts-ignore
   webBundlr: WebBundlr;
 
-  constructor(env: ENVIRONMENT, connection: Connection, adapter: Adapter) {
+  constructor(
+    env: 'production' | 'development',
+    connection: Connection,
+    adapter: Adapter,
+  ) {
     return (async (): Promise<Bundlr> => {
       const network = await this.getBundlerNetwork(env);
       this.webBundlr = new WebBundlr(network, CURRENCY, adapter, {
@@ -49,8 +53,8 @@ export class Bundlr {
     })() as unknown as Bundlr;
   }
 
-  async getBundlerNetwork(env: ENVIRONMENT) {
-    if (env === ENVIRONMENT.production) {
+  async getBundlerNetwork(env: 'production' | 'development') {
+    if (env === 'production') {
       return 'https://node1.bundlr.network';
     }
     return 'https://devnet.bundlr.network';
