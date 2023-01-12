@@ -70,6 +70,7 @@ export enum ActionType {
   Bet = 'Bet',
   Payment = 'Payment',
   Refund = 'Refund',
+  Collect = 'Collect',
 }
 
 export interface BetMsgType {
