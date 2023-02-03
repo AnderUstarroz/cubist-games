@@ -1398,7 +1398,7 @@
     {
       "code": 6029,
       "name": "CannotModifyResult",
-      "msg": "Cannot modify the game outcome because some users already have claimed their payments"
+      "msg": "Cannot modify the game outcome because either some user has already claimed his prize or the admin has cashed out the game"
     },
     {
       "code": 6030,
@@ -1448,7 +1448,7 @@
     {
       "code": 6039,
       "name": "InvalidMinStep",
-      "msg": "Minimum must be greater or equal than Minimum stake"
+      "msg": "Minimum step must be greater than 0"
     },
     {
       "code": 6040,
